@@ -1,19 +1,21 @@
 <template>
-  <footer class="flex items-center gap-4 justify-between">
-    <div class="w-[158px] flex flex-col gap-2">
-      <svg width="158" height="40" fill="white">
-        <use xlink:href="#logo_yellow"></use>
-      </svg>
-      <p class="text-[10px] font-semibold">
-        Молись, Люби, Путешествуй!
-      </p>
-    </div>
-    <div class="flex items-center gap-[80px]">
-      <p v-for="page in pages" :key="page.id" class="uppercase cursor-pointer transition ease-linaer hover:text-white">
-        {{page.name}}
-      </p>
-    </div>
-    <img src="@/assets/img/digital.png" alt="">
+  <footer>
+    <div class="max-w-[1500px] mx-auto flex flex-col lg:flex-row items-center gap-20 lg:gap-4 justify-between">
+      <div class="w-[158px] flex flex-col gap-2">
+        <svg width="158" height="40" fill="white">
+          <use xlink:href="#logo_yellow"></use>
+        </svg>
+        <p class="text-[10px] font-semibold">
+          Молись, Люби, Путешествуй!
+        </p>
+      </div>
+      <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
+        <p v-for="page in pages" :key="page.id" class="uppercase cursor-pointer transition ease-linaer hover:text-white">
+          {{page.name}}
+        </p>
+      </div>
+      <img src="@/assets/img/digital.png" alt="">
+      </div>
   </footer>
 </template>
 <script>
