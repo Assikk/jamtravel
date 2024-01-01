@@ -16,20 +16,31 @@
     @click="scrollToTop">
       <use xlink:href="#arrow_up"/>
     </svg>
+    <transition name="fade">
+      <Search v-if="isShowSearchModal"/>
+    </transition>
   </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 import Icons from '@/components/icons.vue'
 import HeaderMobile from '@/components/header/mobile.vue'
 import HeaderDesktop from '~/components/header/desktop.vue'
 import Footer from '@/components/footer.vue'
+import Search from '~/components/modals/search/index.vue'
 export default {
   name: 'DefaultLayout',
   components: {
     HeaderDesktop,
     HeaderMobile,
     Footer,
-    Icons
+    Icons,
+    Search
+  },
+  computed: {
+    ...mapState({
+      isShowSearchModal: state => state.search.isShowModal
+    })
   },
   data() {
     return {
@@ -50,7 +61,7 @@ export default {
           id: 4,
           svg: 'telegram'
         }
-      ]
+      ],
     }
   },
   methods: {
@@ -59,7 +70,7 @@ export default {
         top: 0,
         behavior: 'smooth', // добавляет плавное прокручивание (не обязательно)
       });
-    }
+    },
   }
 }
 </script>
