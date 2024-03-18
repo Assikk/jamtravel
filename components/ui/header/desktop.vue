@@ -16,7 +16,8 @@
     </div>
     <div class="flex gap-4 scrollbar w-[500px] xl:w-[750px] 2xl:w-[1000px] overflow-x-auto items-center font-['Century_Gothic'] pb-2">
       <NuxtLink v-for="country in countries" :key="country.id" :to="(`/country/${country.slug}`)"
-      class="uppercase cursor-pointer transition ease-linear hover:text-[#EBE600] min-w-[100px]">
+      class="uppercase cursor-pointer transition ease-linear min-w-[100px]"
+      :class="$route.params.slug == country.slug ? 'text-[#EBE600]' : 'hover:text-[#EBE600]'">
         {{country.name}}
       </NuxtLink>
     </div>
@@ -57,7 +58,7 @@ export default {
     ...mapMutations({
       show_editModal: 'search/SHOW_SEARCHMODAL'
     })
-  }
+  },
 }
 </script>
 <style scoped>

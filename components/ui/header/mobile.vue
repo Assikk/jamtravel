@@ -31,7 +31,8 @@
         <div class="flex flex-col justify-between gap-4">
           <div class="flex flex-col gap-[30px]">
             <p v-for="country in countries" :key="country.id"
-            class="uppercase cursor-pointer transition text-right ease-linear hover:text-[#EBE600]"
+            class="uppercase cursor-pointer transition text-right ease-linear"
+            :class="$route.params.slug == country.slug ? 'text-[#EBE600]' : 'hover:text-[#EBE600]'"
             @click="changePage(country)">
               {{country.name}}
             </p>
