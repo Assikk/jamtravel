@@ -23,5 +23,10 @@ export const actions = {
     commit('SET_HOTEL', {})
     let res = await this.$axios.get(`hotels/${id}`)
     commit('SET_HOTEL', res.data)
+  },
+  async booking_hotel({commit}, form) {
+    commit('SET_HOTEL', {})
+    let res = await this.$axios.post('requests', form)
+      commit('SET_HOTEL', res.data)
   }
 }
