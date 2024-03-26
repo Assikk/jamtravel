@@ -16,9 +16,10 @@
     @click="scrollToTop">
       <use xlink:href="#arrow_up"/>
     </svg>
-    <transition name="fade">
-      <Search v-if="isShowSearchModal"/>
-    </transition>
+    <transition-group name="fade">
+      <Search key="search" v-if="isShowSearchModal"/>
+      <Alert key="alert" v-if="isActiveAlert"/>
+    </transition-group>
   </div>
 </template>
 <script>
@@ -28,6 +29,7 @@ import HeaderMobile from '@/components/ui/header/mobile.vue'
 import HeaderDesktop from '~/components/ui/header/desktop.vue'
 import Footer from '~/components/ui/footer.vue'
 import Search from '~/components/ui/modals/search/index.vue'
+import Alert from '@/components/ui/modals/alert.vue'
 export default {
   name: 'DefaultLayout',
   components: {
@@ -35,11 +37,13 @@ export default {
     HeaderMobile,
     Footer,
     Icons,
-    Search
+    Search,
+    Alert
   },
   computed: {
     ...mapState({
-      isShowSearchModal: state => state.search.isShowModal
+      isShowSearchModal: state => state.search.isShowModal,
+      isActiveAlert: state => state.alert.alert.isActive
     })
   },
   data() {

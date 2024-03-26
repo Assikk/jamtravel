@@ -103,7 +103,7 @@
 </div>
 </template>
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapMutations, mapActions} from 'vuex'
 import Input from '@/components/ui/input.vue'
 import Button from '@/components/ui/button.vue'
 export default {
@@ -131,13 +131,33 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      loading_alert: 'alert/LOADING_ALERT'
+    }),
     ...mapActions({
       get_hotel: 'hotels/get_hotel',
-      booking_hotel: 'hotels/booking_hotel'
+      booking_hotel: 'hotels/booking_hotel',
+      success_alert: 'alert/success_alert',
+      error_alert: 'alert/error_alert'
     }),
     async booking() {
       this.form.hotelId = this.$route.params.slug
-      await this.booking_hotel(this.form)
+      try {
+        this.loading_alert()
+        await this.booking_hotel(this.form)
+        this.loading_alert('Ваша заявка успешно отправлена')
+        this.form = {
+          name: null,
+          phone: null,
+          numberOfAdults: null,
+          numberOfChildren: null,
+          startDate: null,
+          endDate: null,
+          name: null
+        }
+      } catch(err) {
+        this.error_alert(err.response.data.errors[0].message)
+      }
     }
   },
   async mounted() {
