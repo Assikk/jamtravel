@@ -70,5 +70,8 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  height: 75%;
+  overflow-y: auto;
+  /* width: 350px; */
 }
 </style>

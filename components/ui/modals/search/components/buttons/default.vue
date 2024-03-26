@@ -1,5 +1,5 @@
 <template>
-  <button class="flex justify-center items-center gap-3 py-5 px-10 rounded-[100px] border border-[#EBE600] background min-w-[415px] text-white font-bold text-lg"
+  <button class="flex justify-center items-center gap-3 py-5 px-10 rounded-[100px] border border-[#EBE600] background text-white font-bold text-lg"
   @click="$emit('click')">
     <template>
     <slot name="prev-icon"/>

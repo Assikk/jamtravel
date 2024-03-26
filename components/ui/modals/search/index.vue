@@ -1,30 +1,25 @@
 <template>
   <div class="fixed top-0 shadow left-0 w-full h-full z-10 flex items-center justify-center">
     <div class="w-full h-full text-center rounded-lg p-4 flex justify-center items-center gap-4">
-      <div class="flex flex-col gap-[80px]">
-        <h2 class="text-[60px] text-[#EBE600] uppercase">Поиск</h2>
-        <div class="flex items-center gap-[52px]">
+      <div class="w-full px-6 flex flex-col gap-8">
+        <h2 class="text-4xl font-semibold text-[#EBE600] uppercase">Поиск</h2>
+        <div class="grid grid-cols-3 gap-4 items-center">
           <Country :list="countries" v-if="isShowCountry"
           @choose="chooseCountry"
           @clear="clearCountries"
           @save="isShowCountry = false"/>
           <SearchButton v-else
           @click="isShowCountry = true">
-            {{countryText}}
+            {{filter.country ? filter.country : 'Выберите страну'}}
           </SearchButton>
-          <SearchButton>
-            Выберите дату
-          </SearchButton>
+          <Input placeholder="Дата" v-model="filter.date_from"/>
           <Range v-if="isShowRange"
           @save="saveRange"/>
           <SearchButton v-else @click="isShowRange = true">
-            {{rangeText}}
+            {{filter.max_price ? filter.max_price : 'Ваш бюджет'}}
           </SearchButton>
         </div>
-        <p class="uppercase text-white text-2xl font-medium">
-          С ЛЕГКОСТЬЮ Подберите отель, соответствующий вашему вкусу и бюджету!
-        </p>
-        <Button class="!w-[400px] mx-auto">
+        <Button class="!w-[300px] mx-auto" @click="searchTours">
           <template #prev-icon>
             <svg width="29" height="24" viewBox="0 0 29 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_2087_32409)">
@@ -55,20 +50,20 @@ import SearchButton from './components/buttons/default.vue'
 import Button from '~/components/ui/button.vue'
 import Country from './components/country.vue'
 import Range from './components/range.vue'
+import Input from './components/inputs/default.vue'
 export default {
   name: 'SearchModal',
   components: {
     Button,
     SearchButton,
     Country,
-    Range
+    Range,
+    Input
   },
   data() {
     return {
       isShowCountry: false,
       isShowRange: false,
-      countryText: 'Выберите страну',
-      rangeText: 'Ваш бюджет',
       countries: [
         {
           id: 1,
@@ -151,6 +146,11 @@ export default {
           selected: false
         },
       ],
+      filter: {
+        country: null,
+        date_from: null,
+        max_price: null
+      }
     }
   },
   methods: {
@@ -163,19 +163,29 @@ export default {
           country.selected = true
         } else country.selected = false
       })
-      this.countryText = value.name
+      this.filter.country = value.name
     },
     clearCountries() {
       this.countries.forEach((item) => {
         item.selected = false
       })
-      this.countryText = 'Выберите страну'
+      this.filter.country = null
     },
     saveRange(val) {
       if(Number(val)) {
-        this.rangeText = val
-      } else this.rangeText = 'Ваш бюджет'
+        this.filter.max_price = val
+      } else this.filter.max_price = null
       this.isShowRange = false
+    },
+    async searchTours() {
+    let filter = ''
+    for (let key in this.filter) {
+      if (this.filter[key]) {
+        filter = filter + `${key}=${this.filter[key]}&`
+      }
+    }
+    this.$router.push(`/tours?${filter}`)
+    this.show_editModal(false)
     }
   }
 }
